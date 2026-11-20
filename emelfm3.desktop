@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=emelFM3
+GenericName=Orthodox File Manager
+Comment=Two-pane orthodox file manager inspired by emelFM
+Exec=emelfm3
+Icon=system-file-manager
+Terminal=false
+Categories=System;FileTools;FileManager;Utility;GTK;
+Keywords=file;manager;orthodox;dual;pane;emelfm;emelfm3;mc;
+StartupNotify=true
