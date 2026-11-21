@@ -468,15 +468,15 @@ class EmelFM(Gtk.Window):
         # 1. Icon + Filename
         col_name = Gtk.TreeViewColumn("Filename")
         col_name.set_expand(True)
-        col_name.set_min_width(140)
-        col_name.set_clickable(True)
+        col_name.set_min_width(110)
+        col_name.set_clickable(True); col_name.set_resizable(True)
         col_name.set_sort_column_id(1)
         
         renderer_icon = Gtk.CellRendererPixbuf()
         col_name.pack_start(renderer_icon, False)
         col_name.add_attribute(renderer_icon, "icon-name", 0)
         
-        renderer_name = Gtk.CellRendererText()
+        renderer_name = Gtk.CellRendererText(); renderer_name.set_property("ellipsize", 3)
         renderer_name.set_property("ellipsize", Pango.EllipsizeMode.END)
         col_name.pack_start(renderer_name, True)
         col_name.add_attribute(renderer_name, "text", 1)
@@ -486,7 +486,7 @@ class EmelFM(Gtk.Window):
         # 2. Ext
         renderer_ext = Gtk.CellRendererText()
         col_ext = Gtk.TreeViewColumn("Ext", renderer_ext, text=2)
-        col_ext.set_clickable(True)
+        col_ext.set_clickable(True); col_ext.set_resizable(True)
         col_ext.set_sort_column_id(2)
         tree.append_column(col_ext)
         
@@ -494,14 +494,14 @@ class EmelFM(Gtk.Window):
         renderer_size = Gtk.CellRendererText()
         renderer_size.set_property("xalign", 1.0)
         col_size = Gtk.TreeViewColumn("Size", renderer_size, text=3)
-        col_size.set_clickable(True)
+        col_size.set_clickable(True); col_size.set_resizable(True)
         col_size.set_sort_column_id(3)
         tree.append_column(col_size)
         
         # 4. Modified
         renderer_mod = Gtk.CellRendererText()
         col_mod = Gtk.TreeViewColumn("Modified", renderer_mod, text=4)
-        col_mod.set_clickable(True)
+        col_mod.set_clickable(True); col_mod.set_resizable(True); col_mod.set_sizing(Gtk.TreeViewColumnSizing.FIXED); col_mod.set_fixed_width(165)
         col_mod.set_sort_column_id(4)
         tree.append_column(col_mod)
         
