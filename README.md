@@ -1,93 +1,113 @@
 # emelFM3
 
-A lightweight, single-file **orthodox dual-pane file manager** for Linux written in Python 3 and GTK 3 (PyGObject), inspired by the classic **emelFM** / **emelFM2**.
+**emelFM3** is a lightweight, single-file orthodox dual-pane file manager for Linux built with **Python 3** and **GTK 3**, inspired by the classic **emelFM** and **emelFM2**.
 
-It uses your native GTK 3 system theme without custom CSS overrides, keeping a fast, distraction-free, retro workflow entirely controllable from the keyboard.
+Designed for speed, low resource usage, and full keyboard-driven workflow, it integrates seamlessly with your native GTK desktop theme while providing an embedded command output pane and quick file operations.
 
-![emelFM3 Screenshot](screenshot.png)
+---
+
+## Screenshots
+
+| Dark Theme | Light Theme |
+| :---: | :---: |
+| ![emelFM3 Dark Theme](screenshot-dark.png) | ![emelFM3 Light Theme](screenshot-light.png) |
+
+---
 
 ## Features
 
-- **Classic Dual-Pane Layout:** Equal-width left and right file panes with a fixed central action toolbar (`F1`–`F8` + extra file tools).
-- **Native GTK 3 Look:** Uses standard system symbolic icons (`folder-symbolic`, `text-x-generic-symbolic`) and your active GTK theme.
-- **Built-in Command Output & Shell Bar:** Run shell commands directly inside the active pane's working directory (`user@host $`) with quick-action buttons (`du`, `df`, `free`) and an external terminal launcher (`X`).
-- **Bookmarks & Filters:** Save favorite directories (`~/.config/emelfm3/bookmarks.json`) and filter files on the fly using wildcard patterns (`*.py`, `*.step`, etc.).
-- **Directory Sync:** Copy only missing or newer files from the active pane to the destination pane.
-- **Single-File Portability:** No complex build system or external Python libraries required beyond standard PyGObject.
+- **Single-File Architecture:** Entire application contained in a single readable `emelfm3.py` script with zero external Python dependencies beyond PyGObject (`gi`).
+- **Dual-Pane Navigation:** Independent left and right file panels with `Home` and `Parent folder` quick buttons, editable path bars, hidden files toggle (`H`), and sortable columns (`Filename`, `Ext`, `Size`, `Modified`).
+- **Central Action Column:** Classic emelFM layout with instant access to `Refresh`, `Info`, `Find`, `View`, `Copy`, `Move`, `MkDir`, `Delete`, `New File`, `Rename`, `SymLink`, `Open With`, and `Sync`.
+- **Built-in Command Output & Shell Bar:** Execute shell commands directly in the active directory with quick buttons (`du`, `df`, `free`) and external terminal launcher (`X`).
+- **Bookmarks & File Filters:** Persistent JSON bookmarks (`~/.config/emelfm3/bookmarks.json`) and preset/custom glob filters (`*.png`, `*.step`, `*.tar*`, etc.).
+- **Built-in Text Viewer & Recursive Search:** Lightweight file preview window (`F4`) and recursive file finder (`F3`).
+
+---
 
 ## Requirements
 
-- **Python 3**
-- **GTK 3** and **PyGObject** (`gi`)
+- **Python 3** (`python`)
+- **GTK 3** (`gtk3`)
+- **PyGObject** (`python-gobject` / `python3-gi`)
 
-### Install Dependencies
+### Installing Dependencies
 
-**Arch Linux:**
-```bash
-sudo pacman -S python-gobject gtk3
-```
+- **Arch Linux:**
+  ```bash
+  sudo pacman -S python python-gobject gtk3
+  ```
+- **Debian / Ubuntu / Linux Mint:**
+  ```bash
+  sudo apt install python3 python3-gi gir1.2-gtk-3.0
+  ```
+- **Fedora:**
+  ```bash
+  sudo dnf install python3 python3-gobject gtk3
+  ```
 
-**Debian / Ubuntu / Linux Mint:**
-```bash
-sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0
-```
-
-**Fedora:**
-```bash
-sudo dnf install python3-gobject gtk3
-```
+---
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/legacy-craft/emelfm3.git
-   cd emelfm3
-   ```
+### Option 1: Quick One-Liner Install (User Local)
 
-2. Install the executable and desktop entry for your user:
-   ```bash
-   mkdir -p ~/.local/bin ~/.local/share/applications
-   cp emelfm3.py ~/.local/bin/emelfm3
-   chmod +x ~/.local/bin/emelfm3
-   cp emelfm3.desktop ~/.local/share/applications/
-   sed -i "s|Exec=emelfm3|Exec=\$HOME/.local/bin/emelfm3|g" ~/.local/share/applications/emelfm3.desktop
-   update-desktop-database ~/.local/share/applications/
-   ```
+```bash
+mkdir -p ~/.local/bin ~/.local/share/applications && \
+curl -fsSL https://githubusercontent.com -o ~/.local/bin/emelfm3 && \
+chmod +x ~/.local/bin/emelfm3 && \
+curl -fsSL https://githubusercontent.com -o ~/.local/share/applications/emelfm3.desktop && \
+sed -i "s|Exec=emelfm3|Exec=\$HOME/.local/bin/emelfm3|g" ~/.local/share/applications/emelfm3.desktop
+```
 
-3. Run it from your application menu or terminal:
-   ```bash
-   emelfm3
-   ```
+### Option 2: Manual Install via Git
+
+```bash
+git clone https://github.com
+cd emelfm3
+mkdir -p ~/.local/bin ~/.local/share/applications
+install -Dm755 emelfm3.py ~/.local/bin/emelfm3
+install -Dm644 emelfm3.desktop ~/.local/share/applications/emelfm3.desktop
+```
+
+*(Make sure `~/.local/bin` is included in your `PATH` environment variable).*
+
+---
 
 ## Keyboard Shortcuts
 
-| Key | Action |
+| Shortcut | Action |
 | :--- | :--- |
 | `F1` / `Ctrl+L` | Refresh both panels |
-| `F2` | File/Directory info dialog |
-| `F3` / `Ctrl+F` | Recursive file search in active directory |
-| `F4` | Built-in read-only file viewer |
-| `Shift+F4` | Create new empty file |
-| `F5` / `Ctrl+C` | Copy selected item(s) to opposite pane |
-| `F6` / `Ctrl+M` | Move selected item(s) to opposite pane |
-| `F7` / `Ctrl+D` | Create new directory |
-| `F8` / `Delete` | Delete selected item(s) |
-| `Enter` / `Right` | Open directory or launch file with default app |
+| `F2` | Show detailed file/folder info |
+| `F3` / `Ctrl+F` | Find files recursively |
+| `F4` | View selected file in built-in viewer |
+| `Shift+F4` | Create new file and open it |
+| `F5` / `Ctrl+C` | Copy selected items to opposite panel |
+| `F6` / `Ctrl+M` | Move selected items to opposite panel |
+| `F7` / `Ctrl+D` | Create new directory (`MkDir`) |
+| `F8` / `Delete` | Delete selected items |
+| `Tab` / `Space` | Switch active panel |
+| `Enter` / `Right` | Enter directory or open file |
 | `BackSpace` / `Left` | Go to parent directory (`..`) |
-| `Tab` / `Space` | Switch active panel (Left ↔ Right) |
-| `Insert` / `Ctrl+T` | Tag/select current item and move cursor down |
-| `Home` | Navigate to user's Home directory |
+| `Home` | Go to user Home directory (`~`) |
+| `Insert` / `Ctrl+T` | Select current item and move cursor down |
 | `Ctrl+R` | Rename selected item |
-| `Ctrl+S` | Create symbolic link in opposite pane |
-| `Ctrl+X` | Sync active directory to opposite pane |
-| `Ctrl+H` | Toggle hidden files (`H` button) |
-| `Ctrl+B` | Bookmark current directory |
-| `Ctrl+G` | Set custom filename filter |
-| `Ctrl+W` | Show/hide bottom command output panel |
-| `Ctrl+Z` | Focus bottom shell command input |
-| `Ctrl+Q` | Quit emelFM3 |
+| `Ctrl+S` | Create symbolic link in opposite panel |
+| `Ctrl+X` | Sync newer files to opposite panel |
+| `Ctrl+H` | Toggle hidden files |
+| `Ctrl+B` | Add current folder to bookmarks |
+| `Ctrl+G` | Apply custom file filter |
+| `Ctrl+W` | Show/Hide bottom terminal output pane |
+| `Ctrl+Z` | Focus command entry bar |
+| `Escape` | Return focus to active file list |
+| `Ctrl+?` | Show keyboard shortcuts help |
+| `Ctrl+Q` | Quit application |
 
-## License
+---
 
-This project is open-source and released under the **GPL-3.0 License**.
+## License & Disclaimer
+
+**emelFM3** is free software released under the **GNU General Public License v3.0 (GPL-3.0)** — see the [LICENSE](LICENSE) file for details.
+
+This program is distributed in the hope that it will be useful, **WITHOUT ANY WARRANTY**; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Always keep backups of important data before performing bulk file operations.
